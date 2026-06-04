@@ -10,6 +10,7 @@ from backend.schemas import ComponentPriceCreate
 from backend.crud import create_price
 from backend.schemas import PriceCalculationRequest
 from backend.pricing_service import calculate_bicycle_price
+from backend.crud import get_components
 
 app = FastAPI(
     title="Hero Bicycle Pricing Engine"
@@ -80,3 +81,12 @@ def get_configurations(
     db: Session = Depends(get_db)
 ):
     return get_all_configurations(db)
+
+@app.get("/components")
+def fetch_components(
+    db: Session = Depends(get_db)
+):
+    return get_components(db)
+@app.get("/test")
+def test():
+    return {"message": "working"}

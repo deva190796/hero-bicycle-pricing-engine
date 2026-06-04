@@ -70,3 +70,47 @@ def save_configuration(
     return config
 def get_all_configurations(db):
     return db.query(Configuration).all()
+def get_components(db):
+    components = db.query(Component).all()
+
+    return [
+        {
+            "id": component.id,
+            "name": component.name,
+            "category": component.category
+        }
+        for component in components
+    ]   
+    
+def get_price_for_date(
+    db,
+    component_id,
+    pricing_date
+):
+    return (
+        db.query(ComponentPrice)
+        .filter(
+            ComponentPrice.component_id == component_id,
+            ComponentPrice.effective_from <= pricing_date
+        )
+        .order_by(
+            ComponentPrice.effective_from.desc()
+        )
+        .first()
+    )
+def get_price_for_date(
+    db,
+    component_id,
+    pricing_date
+):
+    return (
+        db.query(ComponentPrice)
+        .filter(
+            ComponentPrice.component_id == component_id,
+            ComponentPrice.effective_from <= pricing_date
+        )
+        .order_by(
+            ComponentPrice.effective_from.desc()
+        )
+        .first()
+    )

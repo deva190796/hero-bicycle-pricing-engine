@@ -1,4 +1,4 @@
-from backend.crud import get_latest_price
+from backend.crud import get_price_for_date
 
 def calculate_bicycle_price(db, request):
 
@@ -15,17 +15,22 @@ def calculate_bicycle_price(db, request):
 
     for name, component_id in components.items():
 
-        latest_price = get_latest_price(db, component_id)
+        price_record = get_price_for_date(
+            db,
+            component_id,
+            request.pricing_date
+        )
 
-        if latest_price:
+        if price_record:
             breakdown.append({
                 "component": name,
-                "price": latest_price.price
+                "price": price_record.price
             })
 
-            total += latest_price.price
+            total += price_record.price
 
     return {
+        "pricing_date": request.pricing_date,
         "total_price": total,
         "breakdown": breakdown
     }

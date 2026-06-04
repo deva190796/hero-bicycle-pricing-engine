@@ -15,9 +15,13 @@ class ComponentPriceCreate(BaseModel):
     price: float
     effective_from: date
 
+
+from datetime import date
+
 class PriceCalculationRequest(BaseModel):
     frame_id: int
     gear_id: int
     tyre_id: int
     brake_id: int
     seat_id: int
+    pricing_date: date
